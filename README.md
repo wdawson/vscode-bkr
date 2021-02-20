@@ -16,8 +16,9 @@ This extension is designed to be a better kill ring for VS Code. It can be used 
 
 ### History
 
-Windows: `⌃ Ctrl` + `⌥ Alt` + `y`
-Mac: `⌃ Ctrl` + `⌘ Cmd` + `y`
+- Windows: `⌃ Ctrl` + `⌥ Alt` + `y`
+
+- Mac: `⌃ Ctrl` + `⌘ Cmd` + `y`
 
 View the kill ring (history of kills you've done) and choose a kill to yank.
 
