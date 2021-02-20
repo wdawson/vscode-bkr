@@ -4,7 +4,7 @@ This extension is designed to be a better kill ring for VS Code. It can be used 
 
 ## Features
 
-![animation](images/bkr.gif)
+![animation](https://github.com/wdawson/vscode-bkr/raw/main/images/bkr.gif)
 
 ### Kill
 
@@ -21,7 +21,7 @@ Mac: `⌃ Ctrl` + `⌘ Cmd` + `y`
 
 View the kill ring (history of kills you've done) and choose a kill to yank.
 
-![history](images/history.png)
+![history](https://github.com/wdawson/vscode-bkr/raw/main/images/history.png)
 
 ## Requirements
 
