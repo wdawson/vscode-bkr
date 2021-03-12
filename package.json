@@ -4,7 +4,7 @@
 	"description": "A better Emacs-style kill ring to use with other key mappings in VS Code",
 	"icon": "images/logo.png",
 	"homepage": "https://github.com/wdawson/vscode-bkr",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"publisher": "wdawson",
 	"author": {
 		"name": "Wils Dawson",

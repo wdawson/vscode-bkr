@@ -1,6 +1,6 @@
 # Better Kill Ring
 
-This extension is designed to be a better kill ring for VS Code. It can be used with other key maps but bring the full power of kill/yank (and a history) to bear.
+This extension is designed to be a better kill ring for VS Code. It can be used with other key maps to bring the full power of kill/yank (and a history) to bear.
 
 ## Features
 
