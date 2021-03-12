@@ -26,18 +26,22 @@ export function activate(context: vscode.ExtensionContext) {
 	const killDisposable = vscode.commands.registerTextEditorCommand('better-kill-ring.kill', (editor) => {
 		const position = editor.selection.active;
 		const line = editor.document.lineAt(position.line);
-		const range = new vscode.Range(position, line.range.end);
+		let range = new vscode.Range(position, line.range.end);
 		yanked = editor.document.getText(range);
+		if (line.isEmptyOrWhitespace) {
+			yanked = "\n"; // should kill the newline
+			range = line.rangeIncludingLineBreak;
+		}
 		if (yanked) {
 			const size = ring.push(yanked);
 			// Keep the ring clean by removing oldest kill
 			if (size > MAX_SIZE) {
 				ring.shift();
 			}
-			// "deleteAllRight" command removes the selection if text is selected. 
+			// "deleteAllRight" command removes the selection if text is selected and we don't want that.
 			//vscode.commands.executeCommand("deleteAllRight");
 			editor.edit(editBuilder => {
-				editBuilder.replace(range, "");
+				editBuilder.delete(range);
 			});
 		}
 	});
