@@ -39,3 +39,23 @@ See [the Issues page](https://github.com/wdawson/vscode-bkr/issues)
 ## Release Notes
 
 See [the Releases page](https://github.com/wdawson/vscode-bkr/releases) or [the CHANGELOG](CHANGELOG.md).
+
+# Contributing
+
+See [VS Code docs](https://code.visualstudio.com/api/working-with-extensions/testing-extension).
+
+## Running the tests
+
+There is a launch configuration for the extension tests.
+
+## Bundling
+
+The extension is bundled using using
+[esbuild](https://code.visualstudio.com/api/working-with-extensions/bundling-extension#using-esbuild)
+automatically when
+[vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce)
+is run.
+
+## Publishing
+
+See [VS Code docs](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
