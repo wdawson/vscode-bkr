@@ -1,105 +1,105 @@
 {
-	"name": "better-kill-ring",
-	"displayName": "Better Kill Ring",
-	"description": "A better Emacs-style kill ring to use with other key mappings in VS Code",
-	"icon": "images/logo.png",
-	"homepage": "https://github.com/wdawson/vscode-bkr",
-	"version": "0.2.0",
-	"publisher": "wdawson",
-	"author": {
-		"name": "Wils Dawson",
-		"url": "https://wilsdawson.com"
-	},
-	"repository":{
-		"type": "git",
-		"url": "https://github.com/wdawson/vscode-bkr"
-	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/wdawson/vscode-bkr/issues"
-	},
-	"engines": {
-		"vscode": "^1.53.0"
-	},
-	"keywords": [
-		"kill",
-		"yank",
-		"kill ring",
-		"copy paste"
-	],
-	"categories": [
-		"Keymaps"
-	],
-	"activationEvents": [
-		"onCommand:better-kill-ring.kill",
-		"onCommand:better-kill-ring.yank",
-		"onCommand:better-kill-ring.history"
-	],
-	"main": "./dist/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "better-kill-ring.kill",
-				"category": "Better Kill Ring",
-				"title": "Kill the current line"
-			},
-			{
-				"command": "better-kill-ring.yank",
-				"category": "Better Kill Ring",
-				"title": "Yank the most recently killed line"
-			},
-			{
-				"command": "better-kill-ring.history",
-				"category": "Better Kill Ring",
-				"title": "Yank from the kill ring history"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "better-kill-ring.kill",
-				"key": "ctrl+k",
-				"when": "textInputFocus && !editorReadonly && !editorHasMultipleSelections"
-			},
-			{
-				"command": "better-kill-ring.yank",
-				"key": "ctrl+y",
-				"when": "textInputFocus && !editorReadonly && !editorHasMultipleSelections"
-			},
-			{
-				"command": "better-kill-ring.history",
-				"key": "alt+ctrl+y",
-				"mac": "cmd+ctrl+y",
-				"when": "textInputFocus && !editorReadonly && !editorHasMultipleSelections"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "webpack --mode production",
-    	"webpack": "webpack --mode development",
-    	"webpack-dev": "webpack --mode development --watch",
-		"compile": "tsc -p ./",
-	    "test-compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/chai": "^4.2.15",
-		"@types/glob": "^7.1.3",
-		"@types/mocha": "^8.0.4",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.53.0",
-		"@typescript-eslint/eslint-plugin": "^4.14.1",
-		"@typescript-eslint/parser": "^4.14.1",
-		"chai": "^4.3.0",
-		"eslint": "^7.19.0",
-		"glob": "^7.1.6",
-		"mocha": "^8.2.1",
-		"ts-loader": "^8.0.17",
-		"typescript": "^4.1.3",
-		"vscode-test": "^1.5.0",
-		"webpack": "^5.23.0",
-		"webpack-cli": "^4.5.0"
-	}
+  "name": "better-kill-ring",
+  "displayName": "Better Kill Ring",
+  "description": "A better Emacs-style kill ring to use with other key mappings in VS Code",
+  "icon": "images/logo.png",
+  "homepage": "https://github.com/wdawson/vscode-bkr",
+  "version": "0.2.0",
+  "publisher": "wdawson",
+  "author": {
+    "name": "Wils Dawson",
+    "url": "https://wilsdawson.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wdawson/vscode-bkr"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wdawson/vscode-bkr/issues"
+  },
+  "engines": {
+    "vscode": "^1.53.0"
+  },
+  "keywords": [
+    "kill",
+    "yank",
+    "kill ring",
+    "copy paste"
+  ],
+  "categories": [
+    "Keymaps"
+  ],
+  "activationEvents": [
+    "onCommand:better-kill-ring.kill",
+    "onCommand:better-kill-ring.yank",
+    "onCommand:better-kill-ring.history"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "better-kill-ring.kill",
+        "category": "Better Kill Ring",
+        "title": "Kill the current line"
+      },
+      {
+        "command": "better-kill-ring.yank",
+        "category": "Better Kill Ring",
+        "title": "Yank the most recently killed line"
+      },
+      {
+        "command": "better-kill-ring.history",
+        "category": "Better Kill Ring",
+        "title": "Yank from the kill ring history"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "better-kill-ring.kill",
+        "key": "ctrl+k",
+        "when": "textInputFocus && !editorReadonly && !editorHasMultipleSelections"
+      },
+      {
+        "command": "better-kill-ring.yank",
+        "key": "ctrl+y",
+        "when": "textInputFocus && !editorReadonly && !editorHasMultipleSelections"
+      },
+      {
+        "command": "better-kill-ring.history",
+        "key": "alt+ctrl+y",
+        "mac": "cmd+ctrl+y",
+        "when": "textInputFocus && !editorReadonly && !editorHasMultipleSelections"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "webpack --mode production",
+    "webpack": "webpack --mode development",
+    "webpack-dev": "webpack --mode development --watch",
+    "compile": "tsc -p ./",
+    "test-compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.53.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "chai": "^4.3.0",
+    "eslint": "^7.19.0",
+    "glob": "^7.1.6",
+    "mocha": "^10.2.0",
+    "ts-loader": "^8.0.17",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.5.0",
+    "webpack": "^5.23.0",
+    "webpack-cli": "^4.5.0"
+  }
 }

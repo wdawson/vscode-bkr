@@ -4,3 +4,4 @@ out
 vsc-extension-quickstart.md
 images/logo.psd
 *.vsix
+.vscode-test
