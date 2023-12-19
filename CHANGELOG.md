@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+- Added configuration
+- Configurable multi-line behavior
+- Configurable kill ring size
+- Changed default kill ring size to 20 (was 10)
+
 ### 0.2.1 - 2023-12-15
 
 - Updated dependencies

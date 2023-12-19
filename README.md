@@ -20,7 +20,8 @@ This extension is designed to be a better kill ring for VS Code. It can be used 
 
 - Mac: `⌃ Ctrl` + `⌘ Cmd` + `y`
 
-View the kill ring (history of kills you've done) and choose a kill to yank.
+View the kill ring (history of kills you've done) and choose a kill to yank. The maximum
+size is 20 by default, but can be configured in the settings.
 
 ![history](https://github.com/wdawson/vscode-bkr/raw/main/images/history.png)
 
@@ -30,7 +31,15 @@ You may want to ensure that there are no duplicated key mappings. You can do tha
 
 ## Extension Settings
 
-This extension does not currently contribute any settings. Please file an issue if you want to customize the behavior.
+This extension contributes two configuration options. Please file an issue if you want to customize the behavior further.
+
+### `betterKillRing.ringSize`
+
+The maximum number of kills to keep in the kill ring. The default is 20.
+
+### `betterKillRing.multiLineKill.enabled`
+
+When enabled, if the cursor is in the same position as the last kill, the next kill will be appended to the last kill, resulting in a single entry in the kill ring.
 
 ## Known Issues
 
