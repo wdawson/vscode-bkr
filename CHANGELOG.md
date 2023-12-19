@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+### 0.3.1 - 2023-12-18
+
+- Fixed bug in multi-line kill behavior where we were appending to the kill ring even if
+  we had yanked in between.
+- Made the default multi-line kill behavior disabled.
+
 ### 0.3.0 - 2023-12-18
 
 - Added configuration

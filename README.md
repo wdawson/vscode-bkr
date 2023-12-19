@@ -35,11 +35,12 @@ This extension contributes two configuration options. Please file an issue if yo
 
 ### `betterKillRing.ringSize`
 
-The maximum number of kills to keep in the kill ring. The default is 20.
+The maximum number of kills to keep in the kill ring. The default is `20`.
 
 ### `betterKillRing.multiLineKill.enabled`
 
-When enabled, if the cursor is in the same position as the last kill, the next kill will be appended to the last kill, resulting in a single entry in the kill ring.
+When enabled, if the cursor is in the same position as the last kill, the next kill will
+be appended to the last kill, resulting in a single entry in the kill ring. The default is `false`.
 
 ## Known Issues
 

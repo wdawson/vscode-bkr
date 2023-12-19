@@ -4,7 +4,7 @@
   "description": "A better Emacs-style kill ring to use with other key mappings in VS Code",
   "icon": "images/logo.png",
   "homepage": "https://github.com/wdawson/vscode-bkr",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "wdawson",
   "author": {
     "name": "Wils Dawson",
@@ -64,7 +64,7 @@
         },
         "betterKillRing.multiLineKill.enabled": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "When enabled, if the cursor is in the same position as the last kill, the next kill will be appended to the last kill, resulting in a single entry in the kill ring"
         }
       }

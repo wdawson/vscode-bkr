@@ -1,9 +1,12 @@
 import * as vscode from "vscode";
 
+type Command = "kill" | "yank" | "history";
+
 let yanked: string | null = null;
 const ring: Array<string> = [];
 let lastPosition: vscode.Position | undefined = undefined;
 let lastUri: string | undefined = undefined;
+let lastCmd: Command | undefined = undefined;
 
 function insertText(text: string, editor: vscode.TextEditor) {
   const selection = editor.selection;
@@ -12,8 +15,8 @@ function insertText(text: string, editor: vscode.TextEditor) {
   });
 }
 
-function isSamePosition(pos: vscode.Position, uri: string) {
-  return lastPosition?.isEqual(pos) && lastUri === uri;
+function shouldAppendKill(pos: vscode.Position, uri: string) {
+  return lastPosition?.isEqual(pos) && lastUri === uri && lastCmd === "kill";
 }
 
 function trimKillRing() {
@@ -54,10 +57,10 @@ export function activate(context: vscode.ExtensionContext) {
         const multiLineKill =
           vscode.workspace
             .getConfiguration("betterKillRing")
-            .get<boolean>("multiLineKill.enabled") || true;
+            .get<boolean>("multiLineKill.enabled") || false;
         if (
           multiLineKill &&
-          isSamePosition(position, editor.document.uri.toString())
+          shouldAppendKill(position, editor.document.uri.toString())
         ) {
           // append the yank to the last one
           const previousKill = ring.pop();
