@@ -1,3 +1,4 @@
+import { log } from "console";
 import * as vscode from "vscode";
 
 type Command = "kill" | "yank" | "history";
@@ -54,19 +55,22 @@ export function activate(context: vscode.ExtensionContext) {
         range = line.rangeIncludingLineBreak;
       }
       if (yanked) {
-        const multiLineKill =
-          vscode.workspace
-            .getConfiguration("betterKillRing")
-            .get<boolean>("multiLineKill.enabled") || false;
+        const multiLineKill = vscode.workspace
+          .getConfiguration("betterKillRing")
+          .get<boolean>("multiLineKill.enabled");
+
+        log("multiLineKill: " + String(multiLineKill));
         if (
           multiLineKill &&
           shouldAppendKill(position, editor.document.uri.toString())
         ) {
           // append the yank to the last one
           const previousKill = ring.pop();
-          if (previousKill) {
+          if (previousKill !== undefined) {
+            log("previousKill found!");
             yanked = previousKill + yanked;
           }
+          log("new yanked: " + yanked);
         }
         ring.push(yanked);
         lastPosition = position;
@@ -81,6 +85,7 @@ export function activate(context: vscode.ExtensionContext) {
           editBuilder.delete(range);
         });
       }
+      lastCmd = "kill";
     }
   );
 
@@ -91,6 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
       insertText(yanked, editor);
+      lastCmd = "yank";
     }
   );
 
@@ -102,6 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
       showHistory(editor);
+      lastCmd = "history";
     }
   );
 
