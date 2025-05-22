@@ -111,7 +111,7 @@
     "@vscode/test-cli": "^0.0.4",
     "@vscode/test-electron": "^2.3.8",
     "chai": "^4.3.0",
-    "esbuild": "^0.19.9",
+    "esbuild": "^0.25.0",
     "eslint": "^7.19.0",
     "glob": "^7.1.6",
     "mocha": "^10.2.0",
