@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+### 1.0.0 - 2025-08-09
+
+- Breaking: Renamed configuration `betterKillRing.multiLineKill.enabled` to `betterKillRing.coalesceKills.enabled` and reversed the default behavior (now enabled by default). Consecutive kills from the same location are coalesced into a single kill-ring entry.
+- Changed: Default kill ring size is now 50 (was 20).
+- Added: New command to clear the kill ring: "Better Kill Ring: Clear the kill ring" (`better-kill-ring.clear`). No default keybinding.
+
 ### 0.3.2 - 2023-12-19
 
 - Fixed a bug with multi-line kill behavior not working correctly

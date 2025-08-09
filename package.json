@@ -64,8 +64,8 @@
             "properties": {
                 "betterKillRing.ringSize": {
                     "type": "number",
-                    "default": 20,
-                    "description": "The number of lines to keep in the kill ring"
+                    "default": 50,
+                    "description": "The number of entries to keep in the kill ring"
                 },
                 "betterKillRing.coalesceKills.enabled": {
                     "type": "boolean",
