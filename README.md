@@ -74,4 +74,5 @@ is run.
 
 ### Publishing
 
-See [VS Code docs](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
+Pushing a `v*.*.*` tag auto-publishes to the Marketplace via GitHub Actions
+(Entra ID OIDC — no tokens to manage). See [docs/PUBLISHING.md](docs/PUBLISHING.md).

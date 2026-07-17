@@ -1,0 +1,55 @@
+name: Release
+
+# Publishes the extension to the VS Code Marketplace when a version tag is pushed.
+#
+# Auth uses Microsoft Entra ID workload identity federation (OIDC) — no PAT, no
+# stored secret, nothing that expires. GitHub mints a short-lived OIDC token per
+# run; Entra trusts it via a one-time federated credential on an app registration.
+#
+# One-time setup (see docs/PUBLISHING.md):
+#   1. Create a free Entra app registration; add a federated credential for this
+#      repo scoped to the "marketplace" environment.
+#   2. Add that app's service principal to the Marketplace publisher (Contributor).
+#   3. Set repo variables AZURE_CLIENT_ID and AZURE_TENANT_ID (Settings > Actions).
+#   4. Create a GitHub environment named "marketplace".
+#
+# Release flow after setup:  npm version patch && git push --follow-tags
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read      # checkout
+  id-token: write     # request the GitHub OIDC token for Entra federation
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: marketplace   # must match the Entra federated credential subject
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: xvfb-run -a npm test
+
+      - name: Azure login (OIDC, no subscription needed)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      - name: Publish to VS Code Marketplace
+        run: npx --yes @vscode/vsce publish --azure-credential
