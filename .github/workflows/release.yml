@@ -19,6 +19,7 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:   # manual run — publishes the version currently in package.json on main
 
 permissions:
   contents: read      # checkout
