@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+### 1.0.1 - 2026-07-17
+
+- Security: Updated dependencies to resolve all outstanding Dependabot/`npm audit` advisories (0 remaining), including fixes for `serialize-javascript` (RCE/DoS), `fast-uri` (host confusion, path traversal), `flatted` (prototype pollution), `minimatch` (ReDoS), `js-yaml`, `picomatch`, `diff`, `ajv`, and `brace-expansion`. Development-only dependencies; no runtime behavior changes.
+
 ### 1.0.0 - 2025-08-09
 
 - Breaking: Renamed configuration `betterKillRing.multiLineKill.enabled` to `betterKillRing.coalesceKills.enabled` and reversed the default behavior (now enabled by default). Consecutive kills from the same location are coalesced into a single kill-ring entry.
