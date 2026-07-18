@@ -32,9 +32,15 @@ Do this once. It lives in Microsoft's web portals (can't be scripted).
 
 1. Go to the [Microsoft Entra admin center](https://entra.microsoft.com) →
    **Entra ID → App registrations → New registration**.
-2. Name it e.g. `vscode-bkr-publisher`, leave defaults, **Register**.
-3. From the **Overview** page, copy the **Application (client) ID** and
-   **Directory (tenant) ID**.
+2. Fill in the form:
+   - **Name**: e.g. `vscode-bkr-publisher`
+   - **Supported account types**: **Accounts in this organizational directory
+     only (Single tenant)** — federated credentials require a tenant-resident
+     app; nothing ever signs into it.
+   - **Redirect URI**: leave **blank** (don't pick a platform — OIDC federation
+     doesn't use one).
+3. **Register**, then from the **Overview** page copy the **Application
+   (client) ID** and **Directory (tenant) ID**.
 
 ### 2. Add a federated credential trusting this repo
 
@@ -44,6 +50,8 @@ Add credential**:
 - Scenario: **GitHub Actions deploying Azure resources**
 - Organization: `wdawson`  •  Repository: `vscode-bkr`
 - Entity type: **Environment**  •  Environment name: `marketplace`
+- Name: anything, e.g. `github-vscode-bkr-marketplace`
+- Leave **Audience** at its default (`api://AzureADTokenExchange`)
 
 (The `marketplace` environment name must match `environment:` in the workflow.)
 
@@ -59,14 +67,17 @@ Add credential**:
 
 ### 4. Wire up GitHub
 
-- Create an environment named **`marketplace`**
-  (repo **Settings → Environments → New environment**).
-- Add repository **variables** (repo **Settings → Secrets and variables →
-  Actions → Variables**), not secrets — these are non-sensitive IDs:
+The **`marketplace`** environment is already created, with `wdawson` as a
+required reviewer and deployments restricted to `main` + `v*` tags — so every
+publish pauses for an approval click. Nothing to do there.
+
+Just add repository **variables** (repo **Settings → Secrets and variables →
+Actions → Variables**), not secrets — these are non-sensitive IDs:
   - `AZURE_CLIENT_ID` = the Application (client) ID from step 1
   - `AZURE_TENANT_ID` = the Directory (tenant) ID from step 1
 
-That's it — the next `v*.*.*` tag publishes automatically.
+That's it — the next `v*.*.*` tag publishes automatically (after you approve
+the environment gate).
 
 ## Fallback: manual publish with a PAT
 
