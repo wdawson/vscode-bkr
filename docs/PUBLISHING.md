@@ -108,8 +108,12 @@ workflow still publishes to the VS Code Marketplace and just warns.
 
    (Or: `gh secret set OPEN_VSX_TOKEN --env marketplace --repo wdawson/vscode-bkr`.)
 
-Unlike the Entra token, this one **can expire/be revoked** — if Open VSX publishes
-start failing with an auth error, regenerate the token and update the secret.
+Unlike the Entra side (secretless), this is a stored long-lived token. Ours is set
+to **never expire**, so it won't lapse — but if it's ever revoked or you rotate it,
+just regenerate and update the `OPEN_VSX_TOKEN` secret. The namespace shows as
+*unverified* (⚠️) until the ownership claim
+([namespace-access issue](https://github.com/EclipseFdn/open-vsx.org/issues/11916))
+is approved, then flips to *verified* (🛡️) automatically.
 
 ## Fallback: manual publish with a PAT
 
