@@ -1,6 +1,6 @@
 # Better Kill Ring
 
-[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/wdawson.better-kill-ring?label=VS%20Code%20Marketplace&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=wdawson.better-kill-ring)
+[![VS Code Marketplace](https://vsmarketplacebadges.dev/version/wdawson.better-kill-ring.svg?style=flat&label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=wdawson.better-kill-ring)
 [![Open VSX](https://img.shields.io/open-vsx/v/wdawson/better-kill-ring?label=Open%20VSX&logo=eclipseide)](https://open-vsx.org/extension/wdawson/better-kill-ring)
 [![CI](https://github.com/wdawson/vscode-bkr/actions/workflows/ci.yml/badge.svg)](https://github.com/wdawson/vscode-bkr/actions/workflows/ci.yml)
 
