@@ -1,18 +1,26 @@
 # Publishing
 
-Releases are published to the [VS Code Marketplace](https://marketplace.visualstudio.com/manage/publishers/wdawson)
-automatically by [`.github/workflows/release.yml`](../.github/workflows/release.yml)
-when a `v*.*.*` tag is pushed.
+Releases are published to **both** the
+[VS Code Marketplace](https://marketplace.visualstudio.com/manage/publishers/wdawson)
+and [Open VSX](https://open-vsx.org/namespace/wdawson) (the open registry used by
+Cursor, VSCodium, Windsurf, ...) automatically by
+[`.github/workflows/release.yml`](../.github/workflows/release.yml) when a
+`v*.*.*` tag is pushed. One kickoff, one approval gate, both registries — and the
+same `.vsix` is pushed to each.
 
-Authentication uses **Microsoft Entra ID workload identity federation** — GitHub
-mints a short-lived OIDC token on each run and Entra trusts it via a one-time
-federated credential. There is **no Personal Access Token and no stored secret**,
-so nothing expires. This replaces the old PAT flow (global PATs are retired on
-2026-12-01).
+Each publish is **idempotent**: re-running a tag whose version is already live is
+treated as success, so failed/partial runs are safe to retry.
 
-Everything below is **free**: public-repo GitHub Actions, a free Entra app
-registration, and Marketplace publishing. No paid Azure subscription or managed
-identity is required.
+Authentication differs per registry:
+
+- **VS Code Marketplace** uses **Microsoft Entra ID workload identity federation**
+  — GitHub mints a short-lived OIDC token per run; **no stored secret, nothing
+  expires**. (Replaces the old PAT flow; global PATs retire 2026-12-01.)
+- **Open VSX** has no OIDC option, so it uses a stored **access token**, kept as
+  an *environment* secret on `marketplace` (only exposed to the gated job).
+
+Everything is **free**: public-repo GitHub Actions, a free Entra app registration,
+and both registries. No paid Azure subscription or managed identity required.
 
 ## Cutting a release
 
@@ -22,7 +30,8 @@ npm version patch          # or minor / major — bumps package.json + creates t
 git push --follow-tags     # pushing the vX.Y.Z tag triggers the Release workflow
 ```
 
-The workflow runs the test suite, then `vsce publish --azure-credential`.
+The workflow runs the tests, packages one `.vsix`, then publishes it to the VS
+Code Marketplace (`vsce publish --azure-credential`) and Open VSX (`ovsx publish`).
 
 ## One-time setup
 
@@ -78,6 +87,29 @@ Actions → Variables**), not secrets — these are non-sensitive IDs:
 
 That's it — the next `v*.*.*` tag publishes automatically (after you approve
 the environment gate).
+
+### 5. Open VSX (Cursor / VSCodium / Windsurf)
+
+Open VSX has no OIDC, so this leg uses one stored token. If you skip it, the
+workflow still publishes to the VS Code Marketplace and just warns.
+
+1. **Sign in** to <https://open-vsx.org> with GitHub.
+2. **Sign the publisher agreement**: profile → *Log in with Eclipse* → *Show
+   Publisher Agreement* → read and agree. (One-time, required by Eclipse.)
+3. **Create an access token**: <https://open-vsx.org/user-settings/tokens> →
+   *Generate New Token*. Copy it (shown once).
+4. **Create the namespace** (once), locally:
+   ```bash
+   npx ovsx create-namespace wdawson -p <token>
+   ```
+5. **Store the token** as an *environment* secret so it's only exposed to the
+   gated job — repo **Settings → Environments → marketplace → Add secret**:
+   - `OPEN_VSX_TOKEN` = the token from step 3
+
+   (Or: `gh secret set OPEN_VSX_TOKEN --env marketplace --repo wdawson/vscode-bkr`.)
+
+Unlike the Entra token, this one **can expire/be revoked** — if Open VSX publishes
+start failing with an auth error, regenerate the token and update the secret.
 
 ## Fallback: manual publish with a PAT
 

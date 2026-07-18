@@ -1,17 +1,23 @@
 name: Release
 
-# Publishes the extension to the VS Code Marketplace when a version tag is pushed.
+# Publishes the extension to BOTH the VS Code Marketplace and Open VSX (the open
+# registry used by Cursor, VSCodium, Windsurf, ...) when a version tag is pushed.
 #
-# Auth uses Microsoft Entra ID workload identity federation (OIDC) — no PAT, no
-# stored secret, nothing that expires. GitHub mints a short-lived OIDC token per
-# run; Entra trusts it via a one-time federated credential on an app registration.
+# One kickoff -> one approval gate -> both registries. The exact same .vsix is
+# packaged once and pushed to each. Every publish is idempotent: re-running a tag
+# whose version is already live is treated as success, not a failure.
+#
+# Auth:
+#   - VS Code Marketplace: Microsoft Entra ID OIDC federation — no stored secret.
+#   - Open VSX: a stored access token (Eclipse has no OIDC option). Kept as an
+#     ENVIRONMENT secret on "marketplace" so it's only exposed to this gated job.
 #
 # One-time setup (see docs/PUBLISHING.md):
-#   1. Create a free Entra app registration; add a federated credential for this
-#      repo scoped to the "marketplace" environment.
-#   2. Add that app's service principal to the Marketplace publisher (Contributor).
-#   3. Set repo variables AZURE_CLIENT_ID and AZURE_TENANT_ID (Settings > Actions).
-#   4. Create a GitHub environment named "marketplace".
+#   1-4. Entra app registration + federated credential + AZURE_CLIENT_ID /
+#        AZURE_TENANT_ID variables + the "marketplace" environment (done).
+#   5. Open VSX: sign the Eclipse publisher agreement, create the `wdawson`
+#      namespace, and add env secret OPEN_VSX_TOKEN. (If unset, Open VSX is
+#      skipped with a warning — VS Code Marketplace still publishes.)
 #
 # Release flow after setup:  npm version patch && git push --follow-tags
 
@@ -45,6 +51,9 @@ jobs:
       - name: Test
         run: xvfb-run -a npm test
 
+      - name: Package VSIX (once, for both registries)
+        run: npx --yes @vscode/vsce package --out extension.vsix
+
       - name: Azure login (OIDC, no subscription needed)
         uses: azure/login@93381592711f247e165c389ebb30b596c84cdc48 # v3.0.0
         with:
@@ -52,5 +61,30 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      - name: Publish to VS Code Marketplace
-        run: npx --yes @vscode/vsce publish --azure-credential
+      - name: Publish to VS Code Marketplace (idempotent)
+        run: |
+          set +e
+          out=$(npx --yes @vscode/vsce publish --azure-credential --packagePath extension.vsix 2>&1)
+          code=$?; echo "$out"
+          if [ $code -ne 0 ]; then
+            echo "$out" | grep -qiE "already (exists|published)|conflict|409" \
+              && { echo "::notice::Version already on VS Code Marketplace — idempotent skip."; exit 0; }
+            exit $code
+          fi
+
+      - name: Publish to Open VSX (idempotent)
+        env:
+          OVSX_PAT: ${{ secrets.OPEN_VSX_TOKEN }}   # ovsx reads this env var automatically
+        run: |
+          if [ -z "$OVSX_PAT" ]; then
+            echo "::warning::OPEN_VSX_TOKEN not set — skipping Open VSX. See docs/PUBLISHING.md."
+            exit 0
+          fi
+          set +e
+          out=$(npx --yes ovsx publish extension.vsix 2>&1)
+          code=$?; echo "$out"
+          if [ $code -ne 0 ]; then
+            echo "$out" | grep -qiE "already (exists|published)" \
+              && { echo "::notice::Version already on Open VSX — idempotent skip."; exit 0; }
+            exit $code
+          fi
